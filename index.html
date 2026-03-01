@@ -26,7 +26,7 @@
             overflow: hidden;
         }
 
-        /* --- FITUR 4: LOADING SCREEN GLITCH (BARU) --- */
+        /* --- LOADING SCREEN GLITCH --- */
         #loading-screen {
             position: fixed; inset: 0; background: #000; z-index: 10001;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -58,7 +58,7 @@
             100% { transform: skew(0deg); }
         }
 
-        /* --- START OVERLAY (SETELAH LOADING) --- */
+        /* --- START OVERLAY --- */
         #start-overlay {
             position: fixed; inset: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999;
@@ -85,7 +85,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- KODE ASLI GUNG (LAYOUT) --- */
+        /* --- LAYOUT UTAMA --- */
         .video-background {
             position: fixed; top: 0; left: 0;
             width: 100vw; height: 100vh; z-index: -3;
@@ -184,7 +184,7 @@
 
     <div id="loading-screen">
         <div class="load-wrap">
-            <h2 class="load-title">ELL PRESET</h2>
+            <h2 class="load-title">GUNG PRESET</h2>
             <div class="load-status" id="load-status">BOOTING SYSTEM...</div>
             <div class="load-pct" id="load-pct">0%</div>
         </div>
@@ -206,21 +206,17 @@
         <div class="card">
             <div class="glow-orbit"></div>
             <div class="content-wrap">
-                
                 <div class="hud-status">
                     <span class="hud-time" id="clock">00:00:00</span>
                     <span class="hud-battery" id="battery">SYSTEM: --%</span>
                 </div>
-
                 <div class="profile-wrapper">
                     <div class="profile-img">
-                        <img src="https://repgyetdcodkynrbxocg.supabase.co/storage/v1/object/public/images/telegram-1772368916232-e2c781ba.jpg">
+                        <img src="https://repgyetdcodkynrbxocg.supabase.co/storage/v1/object/public/images/telegram-1772368916232-e2c781ba.jpg" alt="Profile">
                     </div>
                 </div>
-
-                <h1 class="name">ELL PRESET</h1>
+                <h1 class="name">GUNG PRESET</h1>
                 <p class="bio">Premium Editor Visual</p>
-                
                 <div class="links">
                     <a href="https://wa.me/6283841035866" class="link-box">
                         <div class="btn-inner"><i class="fab fa-whatsapp"></i><span>WhatsApp Official</span></div>
@@ -229,9 +225,7 @@
                         <div class="btn-inner"><i class="fab fa-tiktok"></i><span>TikTok Profile</span></div>
                     </a>
                 </div>
-                
                 <div class="footer">ELL PRESET • 2026</div>
-
                 <div class="visitor-section">
                     <img src="https://count.getloli.com/get/@gung_preset_official?theme=rule_734" alt="Visitor Counter">
                 </div>
@@ -249,7 +243,15 @@
     <audio id="myAudio" loop><source src="terimeri.mp3" type="audio/mpeg"></audio>
 
     <script>
-        // --- LOGIC LOADING ---
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 85))) {
+                return false;
+            }
+        }
+    </script>
+
+    <script>
         let loadWidth = 0;
         const statusTexts = ["INITIALIZING...", "SYNCING AUDIO...", "RENDERING XML...", "SYSTEM READY!"];
         const loadInterval = setInterval(() => {
@@ -270,13 +272,12 @@
             }
         }, 100);
 
-        // --- KODE ASLI GUNG ---
         function updateClock() {
             const now = new Date();
             const h = String(now.getHours()).padStart(2, '0');
             const m = String(now.getMinutes()).padStart(2, '0');
             const s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+            document.getElementById('clock').textContent = h + ":" + m + ":" + s;
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -285,7 +286,7 @@
             navigator.getBattery().then(function(battery) {
                 function updateBatteryUI() {
                     const level = Math.round(battery.level * 100);
-                    document.getElementById('battery').innerHTML = `<i class="fas fa-microchip"></i> PWR: ${level}%`;
+                    document.getElementById('battery').innerHTML = '<i class="fas fa-microchip"></i> PWR: ' + level + '%';
                 }
                 updateBatteryUI();
                 battery.addEventListener('levelchange', updateBatteryUI);
