@@ -24,25 +24,49 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            cursor: pointer; /* Memberi tahu user bahwa halaman ini bisa di klik */
         }
 
-        /* VIDEO BACKGROUND - AUTOPLAY & MUTED AGAR CHROME MENAMPILKANNYA */
+        /* --- LAYER TOMBOL START (HANYA INI YANG DITAMBAH) --- */
+        #start-overlay {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.8s ease-in-out;
+        }
+
+        .tap-btn {
+            padding: 20px 45px; font-family: 'Syncopate', sans-serif; font-size: 14px;
+            font-weight: bold; color: white; text-transform: uppercase; letter-spacing: 4px;
+            background: #111; border: none; border-radius: 50px; cursor: pointer;
+            position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(110, 0, 255, 0.4);
+        }
+
+        .tap-btn::before {
+            content: ''; position: absolute; inset: -4px;
+            background: linear-gradient(45deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 400%; z-index: -1; animation: moveRGB 4s linear infinite; filter: blur(8px);
+        }
+
+        @keyframes moveRGB {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- TAMPILAN ASLI KAMU (TIDAK DIUBAH) --- */
         .video-background {
             position: fixed; top: 50%; left: 50%;
             min-width: 100%; min-height: 100%;
             width: auto; height: auto; z-index: -3;
             transform: translateX(-50%) translateY(-50%);
             object-fit: cover;
-            pointer-events: none; /* User tidak bisa mengklik video */
         }
 
         .bg-overlay {
             position: fixed; inset: 0; z-index: -2;
-            background: rgba(0, 0, 0, 0.45); /* Overlay gelap agar teks jelas */
+            background: rgba(0, 0, 0, 0.45);
         }
 
-        /* HEADER ANIMASI RAINBOW */
         .main-header {
             position: absolute; top: 40px; width: 100%; text-align: center;
             font-family: 'Syncopate', sans-serif; font-size: 22px;
@@ -57,7 +81,6 @@
             100% { background-position: 100% center; }
         }
 
-        /* CARD SYSTEM */
         .main-container { width: 90%; max-width: 400px; z-index: 1; margin-top: 60px; }
 
         .card {
@@ -74,27 +97,17 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* ORBIT GLOW RGB */
         .glow-orbit {
             position: absolute; inset: -50%; z-index: -1;
             background: conic-gradient(from 0deg, transparent, var(--color-1), transparent 30%, var(--color-2), transparent 60%, var(--color-1), transparent);
             filter: blur(45px); animation: rotateGlow 8s linear infinite;
         }
 
-        @keyframes rotateGlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes rotateGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .card-inner { 
-            position: absolute; inset: 3px; 
-            background: rgba(0, 0, 0, 0.7); 
-            border-radius: 32px; z-index: 0; 
-        }
-        
+        .card-inner { position: absolute; inset: 3px; background: rgba(0, 0, 0, 0.7); border-radius: 32px; z-index: 0; }
         .content-wrap { position: relative; z-index: 1; }
 
-        /* PROFILE */
         .profile-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto 20px; }
         .profile-img {
             width: 100%; height: 100%; border-radius: 50%; padding: 3px;
@@ -105,32 +118,31 @@
         .name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 5px; font-weight: 700; }
         .bio { font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* RGB BUTTONS */
         .link-box {
-            position: relative; 
-            background: linear-gradient(to right, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            position: relative; background: linear-gradient(to right, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
             background-size: 400% auto; border-radius: 18px; padding: 2px; margin-bottom: 15px;
-            display: flex; text-decoration: none; color: #fff; overflow: hidden;
-            animation: rainbowFlow 4s linear infinite;
+            display: flex; text-decoration: none; color: #fff; overflow: hidden; animation: rainbowFlow 4s linear infinite;
         }
 
-        .btn-inner {
-            background: #0a0a0c; width: 100%; padding: 16px 20px; border-radius: 16px;
-            display: flex; align-items: center; transition: 0.3s;
-        }
-
+        .btn-inner { background: #0a0a0c; width: 100%; padding: 16px 20px; border-radius: 16px; display: flex; align-items: center; transition: 0.3s; }
         .link-box i { font-size: 22px; margin-right: 20px; }
         .link-box span { font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; flex: 1; text-align: left; }
 
         .footer { margin-top: 25px; font-size: 8px; opacity: 0.4; letter-spacing: 5px; }
+
+        .hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     </style>
 </head>
-<body onclick="activateExperience()">
+<body>
 
-    <video autoplay muted loop playsinline class="video-background" id="bgVideo">
+    <div id="start-overlay" onclick="launchExperience()">
+        <button class="tap-btn">Tap Di Sini</button>
+        <p style="margin-top: 20px; font-size: 8px; letter-spacing: 3px; opacity: 0.4;">ELL PRESET PRODUCTION</p>
+    </div>
+
+    <video loop playsinline class="video-background" id="bgVideo">
         <source src="anime.mp4" type="video/mp4">
     </video>
-
     <div class="bg-overlay"></div>
 
     <h1 class="main-header">LINKTREE ELL PRESET</h1>
@@ -139,32 +151,22 @@
         <div class="card">
             <div class="glow-orbit"></div>
             <div class="card-inner"></div>
-            
             <div class="content-wrap">
                 <div class="profile-wrapper">
                     <div class="profile-img">
                         <img src="https://repgyetdcodkynrbxocg.supabase.co/storage/v1/object/public/images/telegram-1772368916232-e2c781ba.jpg">
                     </div>
                 </div>
-                
                 <h1 class="name">ELL PRESET</h1>
                 <p class="bio">Premium Editor Visual</p>
-
                 <div class="links">
                     <a href="https://wa.me/6283841035866" class="link-box">
-                        <div class="btn-inner">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>WhatsApp Official</span>
-                        </div>
+                        <div class="btn-inner"><i class="fab fa-whatsapp"></i><span>WhatsApp Official</span></div>
                     </a>
                     <a href="https://www.tiktok.com/@gung_preset1" class="link-box">
-                        <div class="btn-inner">
-                            <i class="fab fa-tiktok"></i>
-                            <span>TikTok Profile</span>
-                        </div>
+                        <div class="btn-inner"><i class="fab fa-tiktok"></i><span>TikTok Profile</span></div>
                     </a>
                 </div>
-
                 <div class="footer">ELL PRESET • 2026</div>
             </div>
         </div>
@@ -175,25 +177,17 @@
     </audio>
 
     <script>
-        // Fungsi untuk mengaktifkan suara dan memastikan video berjalan setelah klik pertama
-        function activateExperience() {
-            var audio = document.getElementById("myAudio");
-            var video = document.getElementById("bgVideo");
-            
-            // Nyalakan lagu Teri Meri
-            audio.play().catch(e => console.log("Audio play blocked by Chrome."));
-            
-            // Nyalakan suara video (jika ada)
-            video.muted = false;
-            
-            // Pastikan video tetap berjalan (unmute kadang membuat video pause sebentar)
-            video.play().catch(e => console.log("Video play blocked by Chrome after unmute."));
-        }
-        
-        // Memastikan video jalan saat load (walau muted)
-        window.onload = function() { 
-            var v = document.getElementById("bgVideo");
-            v.play().catch(e => console.log("Autoplay blocked, wait for click."));
+        function launchExperience() {
+            const overlay = document.getElementById('start-overlay');
+            const video = document.getElementById('bgVideo');
+            const audio = document.getElementById('myAudio');
+
+            // Aktifkan Media
+            video.play();
+            audio.play();
+
+            // Sembunyikan Overlay
+            overlay.classList.add('hidden');
         }
     </script>
 </body>
