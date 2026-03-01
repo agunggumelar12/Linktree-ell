@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUNG PRESET - Official</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&family=Syncopate:wght@700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-1: #6e00ff;
+            --color-2: #00d4ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer; /* Memberi tahu user bahwa halaman ini bisa di klik */
+        }
+
+        /* VIDEO BACKGROUND - AUTOPLAY & MUTED AGAR CHROME MENAMPILKANNYA */
+        .video-background {
+            position: fixed; top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto; z-index: -3;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+            pointer-events: none; /* User tidak bisa mengklik video */
+        }
+
+        .bg-overlay {
+            position: fixed; inset: 0; z-index: -2;
+            background: rgba(0, 0, 0, 0.45); /* Overlay gelap agar teks jelas */
+        }
+
+        /* HEADER ANIMASI RAINBOW */
+        .main-header {
+            position: absolute; top: 40px; width: 100%; text-align: center;
+            font-family: 'Syncopate', sans-serif; font-size: 22px;
+            font-weight: 800; letter-spacing: 5px; z-index: 10;
+            background: linear-gradient(to right, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 400% auto; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; animation: rainbowFlow 5s linear infinite;
+        }
+
+        @keyframes rainbowFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 100% center; }
+        }
+
+        /* CARD SYSTEM */
+        .main-container { width: 90%; max-width: 400px; z-index: 1; margin-top: 60px; }
+
+        .card {
+            position: relative; padding: 45px 25px; border-radius: 35px;
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center; overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ORBIT GLOW RGB */
+        .glow-orbit {
+            position: absolute; inset: -50%; z-index: -1;
+            background: conic-gradient(from 0deg, transparent, var(--color-1), transparent 30%, var(--color-2), transparent 60%, var(--color-1), transparent);
+            filter: blur(45px); animation: rotateGlow 8s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .card-inner { 
+            position: absolute; inset: 3px; 
+            background: rgba(0, 0, 0, 0.7); 
+            border-radius: 32px; z-index: 0; 
+        }
+        
+        .content-wrap { position: relative; z-index: 1; }
+
+        /* PROFILE */
+        .profile-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto 20px; }
+        .profile-img {
+            width: 100%; height: 100%; border-radius: 50%; padding: 3px;
+            background: linear-gradient(45deg, var(--color-1), var(--color-2));
+        }
+        .profile-img img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        
+        .name { font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 5px; font-weight: 700; }
+        .bio { font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* RGB BUTTONS */
+        .link-box {
+            position: relative; 
+            background: linear-gradient(to right, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 400% auto; border-radius: 18px; padding: 2px; margin-bottom: 15px;
+            display: flex; text-decoration: none; color: #fff; overflow: hidden;
+            animation: rainbowFlow 4s linear infinite;
+        }
+
+        .btn-inner {
+            background: #0a0a0c; width: 100%; padding: 16px 20px; border-radius: 16px;
+            display: flex; align-items: center; transition: 0.3s;
+        }
+
+        .link-box i { font-size: 22px; margin-right: 20px; }
+        .link-box span { font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; flex: 1; text-align: left; }
+
+        .footer { margin-top: 25px; font-size: 8px; opacity: 0.4; letter-spacing: 5px; }
+    </style>
+</head>
+<body onclick="activateExperience()">
+
+    <video autoplay muted loop playsinline class="video-background" id="bgVideo">
+        <source src="anime.mp4" type="video/mp4">
+    </video>
+
+    <div class="bg-overlay"></div>
+
+    <h1 class="main-header">LINKTREE ELL PRESET</h1>
+
+    <div class="main-container">
+        <div class="card">
+            <div class="glow-orbit"></div>
+            <div class="card-inner"></div>
+            
+            <div class="content-wrap">
+                <div class="profile-wrapper">
+                    <div class="profile-img">
+                        <img src="https://repgyetdcodkynrbxocg.supabase.co/storage/v1/object/public/images/telegram-1772368916232-e2c781ba.jpg">
+                    </div>
+                </div>
+                
+                <h1 class="name">ELL PRESET</h1>
+                <p class="bio">Premium Editor Visual</p>
+
+                <div class="links">
+                    <a href="https://wa.me/6283841035866" class="link-box">
+                        <div class="btn-inner">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp Official</span>
+                        </div>
+                    </a>
+                    <a href="https://www.tiktok.com/@gung_preset1" class="link-box">
+                        <div class="btn-inner">
+                            <i class="fab fa-tiktok"></i>
+                            <span>TikTok Profile</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="footer">ELL PRESET • 2026</div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="myAudio" loop>
+        <source src="terimeri.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Fungsi untuk mengaktifkan suara dan memastikan video berjalan setelah klik pertama
+        function activateExperience() {
+            var audio = document.getElementById("myAudio");
+            var video = document.getElementById("bgVideo");
+            
+            // Nyalakan lagu Teri Meri
+            audio.play().catch(e => console.log("Audio play blocked by Chrome."));
+            
+            // Nyalakan suara video (jika ada)
+            video.muted = false;
+            
+            // Pastikan video tetap berjalan (unmute kadang membuat video pause sebentar)
+            video.play().catch(e => console.log("Video play blocked by Chrome after unmute."));
+        }
+        
+        // Memastikan video jalan saat load (walau muted)
+        window.onload = function() { 
+            var v = document.getElementById("bgVideo");
+            v.play().catch(e => console.log("Autoplay blocked, wait for click."));
+        }
+    </script>
+</body>
+</html>
