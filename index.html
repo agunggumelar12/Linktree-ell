@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GUNG PRESET - Official (Full Screen Video)</title>
+    <title>GUNG PRESET - Official</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Syncopate:wght@700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700;800&family=Syncopate:wght@700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #6e00ff; 
-            --secondary: #00d4ff; 
-            --rainbow: linear-gradient(90deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            --color-1: #6e00ff;
+            --color-2: #00d4ff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -21,40 +20,58 @@
             background: #000;
             color: #fff;
             min-height: 100vh;
-            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* Mencegah scroll */
+            overflow: hidden;
         }
 
-        /* --- VIDEO BACKGROUND FULL LAYAR TOTAL --- */
+        /* --- LAYER TOMBOL START (TETAP DIPERTAHANKAN) --- */
+        #start-overlay {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.8s ease-in-out;
+        }
+
+        .tap-btn {
+            padding: 20px 45px; font-family: 'Syncopate', sans-serif; font-size: 14px;
+            font-weight: bold; color: white; text-transform: uppercase; letter-spacing: 4px;
+            background: #111; border: none; border-radius: 50px; cursor: pointer;
+            position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(110, 0, 255, 0.4);
+        }
+
+        .tap-btn::before {
+            content: ''; position: absolute; inset: -4px;
+            background: linear-gradient(45deg, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 400%; z-index: -1; animation: moveRGB 4s linear infinite; filter: blur(8px);
+        }
+
+        @keyframes moveRGB {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- VIDEO FULL SCREEN --- */
         .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3;
-            object-fit: cover; /* Ini kuncinya agar video full tanpa distorsi */
-            filter: brightness(0.5); 
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh; z-index: -3;
+            object-fit: cover;
         }
 
         .bg-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.8) 100%);
+            position: fixed; inset: 0; z-index: -2;
+            background: radial-gradient(circle at center, transparent 20%, rgba(0, 0, 0, 0.8) 100%);
         }
 
         .main-header {
-            position: absolute; top: 30px; width: 100%; text-align: center;
-            font-family: 'Syncopate', sans-serif; font-size: 11px;
-            font-weight: 800; letter-spacing: 12px; z-index: 10;
-            background: var(--rainbow);
+            position: absolute; top: 40px; width: 100%; text-align: center;
+            font-family: 'Syncopate', sans-serif; font-size: 14px;
+            font-weight: 800; letter-spacing: 8px; z-index: 10;
+            background: linear-gradient(to right, #ff0000, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
             background-size: 400% auto; -webkit-background-clip: text;
             -webkit-text-fill-color: transparent; animation: rainbowFlow 3s linear infinite;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
         @keyframes rainbowFlow {
@@ -62,13 +79,14 @@
             100% { background-position: 100% center; }
         }
 
-        .main-container { width: 90%; max-width: 380px; z-index: 1; perspective: 1000px; }
+        .main-container { width: 90%; max-width: 380px; z-index: 1; }
 
+        /* --- CARD FULL BENING --- */
         .card {
-            position: relative; padding: 50px 30px; border-radius: 40px;
+            position: relative; padding: 45px 25px; border-radius: 35px;
             background: transparent; 
-            text-align: center; 
-            animation: float 5s ease-in-out infinite;
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
@@ -77,134 +95,96 @@
         }
 
         .glow-orbit {
-            position: absolute; inset: -15%; z-index: -1;
-            background: conic-gradient(from 0deg, transparent, var(--primary), transparent 30%, var(--secondary), transparent 60%, var(--primary), transparent);
-            filter: blur(50px); animation: rotateGlow 6s linear infinite;
-            opacity: 0.5;
+            position: absolute; inset: -20%; z-index: -1;
+            background: conic-gradient(from 0deg, transparent, var(--color-1), transparent 30%, var(--color-2), transparent 60%, var(--color-1), transparent);
+            filter: blur(60px); animation: rotateGlow 5s linear infinite;
+            opacity: 0.6;
         }
 
-        @keyframes rotateGlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes rotateGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .content-wrap { position: relative; z-index: 2; }
+        .content-wrap { position: relative; z-index: 1; }
 
+        /* --- PROFIL RING NEON GERAK CEPAT --- */
         .profile-wrapper { 
-            position: relative; width: 110px; height: 110px; margin: 0 auto 25px; 
-            padding: 2px; border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--primary));
+            position: relative; width: 110px; height: 110px; margin: 0 auto 20px;
+            padding: 3px; border-radius: 50%;
+            background: linear-gradient(45deg, var(--color-1), var(--color-2), var(--color-1));
             background-size: 200% auto;
-            animation: fastNeonPulse 0.8s linear infinite, glowPulse 0.8s ease-in-out infinite alternate;
+            animation: fastPulse 0.8s linear infinite, neonGlow 0.8s ease-in-out infinite alternate;
         }
-        
-        @keyframes fastNeonPulse {
+
+        @keyframes fastPulse {
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
         }
-        
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 10px rgba(110, 0, 255, 0.3), 0 0 20px rgba(0, 212, 255, 0.2); }
-            100% { box-shadow: 0 0 25px rgba(110, 0, 255, 0.8), 0 0 50px rgba(0, 212, 255, 0.6); }
+
+        @keyframes neonGlow {
+            0% { box-shadow: 0 0 15px rgba(110, 0, 255, 0.4); }
+            100% { box-shadow: 0 0 35px rgba(0, 212, 255, 0.8); }
         }
-        
-        .profile-img {
-            width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
-            border: 4px solid #000;
-        }
+
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 4px solid #000; }
         .profile-img img { width: 100%; height: 100%; object-fit: cover; }
         
-        .name { font-family: 'Space Grotesk', sans-serif; font-size: 24px; margin-bottom: 8px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-        .bio { font-size: 11px; color: var(--secondary); margin-bottom: 35px; letter-spacing: 3px; font-weight: 600; text-shadow: 0 1px 5px rgba(0,0,0,0.5); }
+        .name { font-family: 'Space Grotesk', sans-serif; font-size: 24px; margin-bottom: 5px; font-weight: 800; text-shadow: 0 0 15px #000; }
+        .bio { font-size: 10px; color: var(--color-2); margin-bottom: 35px; letter-spacing: 4px; font-weight: 700; text-transform: uppercase; }
 
         .link-box {
-            position: relative; border-radius: 20px; 
-            margin-bottom: 18px;
-            display: block; text-decoration: none; color: #fff; transition: 0.4s;
-            background: rgba(255,255,255,0.05); 
+            position: relative; border-radius: 18px; margin-bottom: 15px;
+            display: block; text-decoration: none; color: #fff; transition: 0.3s;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .link-box:hover {
-            transform: scale(1.03);
-            background: rgba(255,255,255,0.1); 
-            box-shadow: 0 5px 20px rgba(110, 0, 255, 0.2); 
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(110, 0, 255, 0.3);
         }
 
-        .btn-inner {
-            padding: 18px 25px; border-radius: 20px;
-            display: flex; align-items: center; justify-content: flex-start;
-        }
+        .btn-inner { width: 100%; padding: 18px 25px; border-radius: 18px; display: flex; align-items: center; }
+        .link-box i { font-size: 22px; margin-right: 20px; color: var(--color-2); }
+        .link-box span { font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; }
 
-        .link-box i { font-size: 20px; margin-right: 15px; color: var(--secondary); }
-        .link-box span { font-weight: 600; font-size: 13px; letter-spacing: 1px; }
+        .footer { margin-top: 25px; font-size: 8px; opacity: 0.5; letter-spacing: 5px; font-weight: 800; }
 
-        .footer { margin-top: 30px; font-size: 9px; opacity: 0.7; letter-spacing: 4px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
-
-        .music-player-ctrl {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 100; display: flex; align-items: center;
-            background: rgba(0, 0, 0, 0.5); 
-            padding: 12px 24px; border-radius: 100px;
-            cursor: pointer; transition: 0.4s;
-        }
-        
-        .music-bars { display: flex; align-items: flex-end; gap: 4px; height: 18px; margin-right: 15px; }
-        .bar { width: 3px; background: var(--secondary); border-radius: 2px; animation: bounce 1s ease-in-out infinite; }
-        .bar:nth-child(2) { animation-delay: 0.2s; height: 100%; background: var(--primary); }
-        .bar:nth-child(3) { animation-delay: 0.4s; height: 70%; }
-        
-        @keyframes bounce { 0%, 100% { height: 30%; } 50% { height: 100%; } }
-        .music-player-ctrl.paused .bar { animation-play-state: paused; height: 30%; }
+        .hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     </style>
 </head>
-<body onclick="startMusic()">
+<body>
 
-    <video autoplay muted loop playsinline class="video-background" id="bgVideo">
+    <div id="start-overlay" onclick="launchExperience()">
+        <button class="tap-btn">Tap Di Sini</button>
+        <p style="margin-top: 20px; font-size: 8px; letter-spacing: 3px; opacity: 0.4;">ELL PRESET PRODUCTION</p>
+    </div>
+
+    <video loop playsinline class="video-background" id="bgVideo">
         <source src="anime.mp4" type="video/mp4">
     </video>
-
     <div class="bg-overlay"></div>
 
-    <h1 class="main-header">GUNG PRESET ECOSYSTEM</h1>
+    <h1 class="main-header">LINKTREE ELL PRESET</h1>
 
     <div class="main-container">
         <div class="card">
             <div class="glow-orbit"></div>
-            
             <div class="content-wrap">
                 <div class="profile-wrapper">
                     <div class="profile-img">
-                        <img src="https://repgyetdcodkynrbxocg.supabase.co/storage/v1/object/public/images/telegram-1772368916232-e2c781ba.jpg" alt="ELL PRESET">
+                        <img src="https://repgyetdcodkynrbxocg.supabase.co/storage/v1/object/public/images/telegram-1772368916232-e2c781ba.jpg">
                     </div>
                 </div>
-                
                 <h1 class="name">ELL PRESET</h1>
                 <p class="bio">Premium Editor Visual</p>
-
                 <div class="links">
                     <a href="https://wa.me/6283841035866" class="link-box">
-                        <div class="btn-inner">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>CS OFFICIAL 1</span>
-                        </div>
+                        <div class="btn-inner"><i class="fab fa-whatsapp"></i><span>WhatsApp Official</span></div>
                     </a>
-
-                    <a href="https://wa.me/6282144697897" class="link-box">
-                        <div class="btn-inner">
-                            <i class="fab fa-whatsapp"></i>
-                            <span>CS OFFICIAL 2</span>
-                        </div>
-                    </a>
-
                     <a href="https://www.tiktok.com/@gung_preset1" class="link-box">
-                        <div class="btn-inner">
-                            <i class="fab fa-tiktok"></i>
-                            <span>TIKTOK COMMUNITY</span>
-                        </div>
+                        <div class="btn-inner"><i class="fab fa-tiktok"></i><span>TikTok Profile</span></div>
                     </a>
                 </div>
-
-                <div class="footer">ELL PRESET PROJECT • 2026</div>
+                <div class="footer">ELL PRESET • 2026</div>
             </div>
         </div>
     </div>
@@ -213,46 +193,19 @@
         <source src="terimeri.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-player-ctrl paused" id="musicCtrl" onclick="toggleMusic(event)">
-        <div class="music-bars">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-        <i class="fas fa-play" id="musicIcon"></i>
-        <span style="font-size: 10px; font-weight: 800; margin-left: 10px; letter-spacing: 1px; color: #fff; text-shadow: 0 1px 3px #000;">LISTEN</span>
-    </div>
-
     <script>
-        const audio = document.getElementById("myAudio");
-        const musicCtrl = document.getElementById("musicCtrl");
-        const musicIcon = document.getElementById("musicIcon");
+        function launchExperience() {
+            const overlay = document.getElementById('start-overlay');
+            const video = document.getElementById('bgVideo');
+            const audio = document.getElementById('myAudio');
 
-        function startMusic() {
-            if (audio.paused) { playAudio(); }
-        }
+            // Jalankan Video & Audio
+            video.play();
+            audio.play();
 
-        function toggleMusic(event) {
-            event.stopPropagation();
-            if (audio.paused) { playAudio(); } else { pauseAudio(); }
+            // Sembunyikan Overlay dengan transisi halus
+            overlay.classList.add('hidden');
         }
-
-        function playAudio() {
-            audio.play().catch(e => console.log("User interaction required"));
-            musicCtrl.classList.remove("paused");
-            musicIcon.classList.replace("fa-play", "fa-pause");
-        }
-
-        function pauseAudio() {
-            audio.pause();
-            musicCtrl.classList.add("paused");
-            musicIcon.classList.replace("fa-pause", "fa-play");
-        }
-        
-        window.addEventListener('load', () => {
-            const v = document.getElementById("bgVideo");
-            v.play().catch(() => {});
-        });
     </script>
 </body>
 </html>
